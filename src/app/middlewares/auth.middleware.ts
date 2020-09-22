@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken'
 import { promisify } from 'util'
 import authConfig from '@config/auth'
 import { NextFunction, Response, Request } from 'express'
+import AppError from '@errors/AppError'
 
 interface IToken {
   id: string
@@ -11,7 +12,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
 
   if (!authHeader) {
-    return res.status(401).json({ error: 'Token not provided' })
+    throw new AppError('JWT Token is missing')
   }
 
   const [, token] = authHeader.split(' ')
@@ -24,6 +25,6 @@ export default async (req: Request, res: Response, next: NextFunction) => {
     req.user = { id: decoded.id }
     return next()
   } catch (err) {
-    return res.status(401).json({ error: 'Token invalid' })
+    throw new AppError('Invalid JWT Token')
   }
 }

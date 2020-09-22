@@ -1,4 +1,5 @@
 import 'dotenv/config'
+
 import express from 'express'
 import 'express-async-errors'
 
@@ -14,11 +15,15 @@ class App {
   constructor() {
     this.middlewares()
     this.routes()
+    this.exceptionHandling()
   }
 
   middlewares() {
     this.server.use(cors())
     this.server.use(express.json())
+  }
+
+  exceptionHandling() {
     this.server.use(ExceptionHandling)
   }
 

@@ -1,12 +1,12 @@
 import AppError from '@errors/AppError'
 import { NextFunction, Response, Request } from 'express'
 
-export default function (
+export default (
   error: Error,
   request: Request,
   response: Response,
   _: NextFunction
-) {
+) => {
   if (error instanceof AppError) {
     return response.status(error.statusCode).json({
       status: 'error',

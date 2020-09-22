@@ -25,11 +25,11 @@ class CreateSessionService {
     const user = await User.findOne({ email })
 
     if (!user) {
-      throw new AppError('User not found')
+      throw new AppError('Incorrect email/password combination', 401)
     }
 
     if (!(await user.checkPassword(password))) {
-      throw new AppError('Password does not match')
+      throw new AppError('Password does not match', 401)
     }
 
     return {
