@@ -1,5 +1,6 @@
 import * as Yup from 'yup'
 import Profile from '@models/Profile.model'
+import AppError from '@errors/AppError'
 
 const schema = Yup.object().shape({
   firstName: Yup.string().required(),
@@ -18,13 +19,13 @@ interface Request {
 class CreateProfileService {
   public async execute({ user, data }: Request) {
     if (!schema.isValidSync(data)) {
-      throw new Error('Validation fails')
+      throw new AppError('Validation fails')
     }
 
     const profileExists = await Profile.exists({ user })
 
     if (profileExists) {
-      throw new Error('Profile already exists.')
+      throw new AppError('Profile already exists.')
     }
 
     const payload = Object.assign({}, { user }, data)

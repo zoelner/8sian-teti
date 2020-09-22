@@ -1,5 +1,6 @@
 import * as Yup from 'yup'
 import Profile from '@models/Profile.model'
+import AppError from '@errors/AppError'
 
 const schema = Yup.object().shape({
   firstName: Yup.string(),
@@ -18,13 +19,13 @@ interface Request {
 class UpdateProfileService {
   public async execute({ user, data }: Request) {
     if (!schema.isValidSync(data)) {
-      throw new Error('Validation fails')
+      throw new AppError('Validation fails')
     }
 
     const profile = await Profile.findOne({ user })
 
     if (!profile) {
-      throw new Error('Profile not found')
+      throw new AppError('Profile not found')
     }
 
     await profile.updateOne(data)

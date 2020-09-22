@@ -1,5 +1,6 @@
 import * as Yup from 'yup'
 import User from '@models/User.model'
+import AppError from '@errors/AppError'
 
 const schema = Yup.object().shape({
   email: Yup.string().email(),
@@ -26,26 +27,26 @@ interface Request {
 class UpdateUserService {
   public async execute(req: Request, id: string) {
     if (!(await schema.isValid(req))) {
-      throw new Error('Validation fails')
+      throw new AppError('Validation fails')
     }
     const { email, oldPassword } = req
 
     const user = await User.findById(id)
 
     if (!user) {
-      throw new Error('User not found')
+      throw new AppError('User not found')
     }
 
     if (email !== user.email) {
       const userExists = await User.findOne({ where: { email } })
 
       if (userExists) {
-        throw new Error('User already exists.')
+        throw new AppError('User already exists.')
       }
     }
 
     if (oldPassword && !(await user.checkPassword(oldPassword))) {
-      throw new Error('Password does not match')
+      throw new AppError('Password does not match')
     }
 
     await user.updateOne(req)

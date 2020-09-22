@@ -1,10 +1,13 @@
 import 'dotenv/config'
 import express from 'express'
+import 'express-async-errors'
+
 import cors from 'cors'
 import routes from './routes'
 
 import './database'
 
+import ExceptionHandling from '@middlewares/exceptionHandling.middleware'
 class App {
   public server = express()
 
@@ -16,6 +19,7 @@ class App {
   middlewares() {
     this.server.use(cors())
     this.server.use(express.json())
+    this.server.use(ExceptionHandling)
   }
 
   routes() {

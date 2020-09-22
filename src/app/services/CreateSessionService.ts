@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken'
 import * as Yup from 'yup'
 import authConfig from '@config/auth'
 import User from '@models/User.model'
+import AppError from '@errors/AppError'
 
 const schema = Yup.object().shape({
   email: Yup.string().email().required(),
@@ -16,7 +17,7 @@ interface Request {
 class CreateSessionService {
   public async execute(req: Request) {
     if (!(await schema.isValid(req))) {
-      throw new Error('Validation fails')
+      throw new AppError('Validation fails')
     }
 
     const { email, password } = req
@@ -24,11 +25,11 @@ class CreateSessionService {
     const user = await User.findOne({ email })
 
     if (!user) {
-      throw new Error('User not found')
+      throw new AppError('User not found')
     }
 
     if (!(await user.checkPassword(password))) {
-      throw new Error('Password does not match')
+      throw new AppError('Password does not match')
     }
 
     return {

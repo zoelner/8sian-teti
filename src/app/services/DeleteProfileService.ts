@@ -1,3 +1,4 @@
+import AppError from '@errors/AppError'
 import Profile from '@models/Profile.model'
 
 interface Request {
@@ -9,7 +10,7 @@ class DeleteProfileService {
     const profile = await Profile.findOneAndDelete({ user })
 
     if (!profile) {
-      throw new Error('Profile not found')
+      throw new AppError('Profile not found')
     }
 
     return

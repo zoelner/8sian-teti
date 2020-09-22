@@ -1,5 +1,6 @@
 import * as Yup from 'yup'
 import User from '@models/User.model'
+import AppError from '@errors/AppError'
 
 const schema = Yup.object().shape({
   email: Yup.string().email().required(),
@@ -14,13 +15,13 @@ interface Request {
 class CreateUserService {
   public async execute(req: Request) {
     if (!(await schema.isValid(req))) {
-      throw new Error('Validation fails')
+      throw new AppError('Validation fails')
     }
 
     const userExists = await User.exists({ where: { email: req.email } })
 
     if (userExists) {
-      throw new Error('User already exists.')
+      throw new AppError('User already exists.')
     }
 
     const user = await User.create(req)
