@@ -21,7 +21,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
       token,
       authConfig.secret
     )) as IToken
-    req.user.id = decoded.id
+    req.user = { id: decoded.id }
     return next()
   } catch (err) {
     return res.status(401).json({ error: 'Token invalid' })
