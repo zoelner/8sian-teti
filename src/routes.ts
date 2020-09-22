@@ -4,7 +4,7 @@ import UserController from '@controllers/User.controller'
 import SessionController from '@controllers/Session.controller'
 import ProfileController from '@controllers/Profile.controller'
 
-import authMiddleware from '@middlewares/auth.middeware'
+import authMiddleware from '@middlewares/auth.middleware'
 
 const routes = Router()
 
