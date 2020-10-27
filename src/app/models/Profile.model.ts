@@ -1,7 +1,7 @@
-import { Document, Model, model, Schema, Types, NativeDate } from 'mongoose'
+import { Document, Model, model, Schema, Types } from 'mongoose'
 import { IUserModel } from './User.model'
 
-const ProfileSchema = new Schema({
+const ProfileSchema = new Schema<IProfileSchema>({
   firstName: {
     type: String,
     required: true,

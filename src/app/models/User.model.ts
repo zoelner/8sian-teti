@@ -29,8 +29,17 @@ export interface IUserModel extends Model<IUserSchema> {
 }
 
 UserSchema.pre<IUserSchema>('save', async function (next) {
-  if (!this.isModified('password')) next()
-  this.password = await bcrypt.hash(this.password, 8)
+  if (this.isModified('password')) {
+    this.password = await bcrypt.hash(this.password, 8)
+  }
+  next()
+})
+
+UserSchema.pre<IUserSchema>('update', async function (next) {
+  if (this.isModified('password')) {
+    this.password = await bcrypt.hash(this.password, 8)
+  }
+  next()
 })
 
 UserSchema.methods.checkPassword = function (data: IUserSchema) {

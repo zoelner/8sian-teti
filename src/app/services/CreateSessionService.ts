@@ -29,7 +29,7 @@ class CreateSessionService {
     }
 
     if (!(await user.checkPassword(password))) {
-      throw new AppError('Password does not match', 401)
+      throw new AppError('Incorrect email/password combination', 401)
     }
 
     return {

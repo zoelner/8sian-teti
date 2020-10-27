@@ -12,7 +12,7 @@ export default async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization
 
   if (!authHeader) {
-    throw new AppError('JWT Token is missing')
+    throw new AppError('JWT Token is missing', 401)
   }
 
   const [, token] = authHeader.split(' ')

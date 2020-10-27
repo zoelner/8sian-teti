@@ -11,9 +11,18 @@ const schema = Yup.object().shape({
   birthDate: Yup.date().required(),
 })
 
+interface Fields {
+  firstName: string
+  lastName: string
+  address: string
+  addressNumber: string
+  complement: string
+  birthDate: string
+}
+
 interface Request {
   user: string
-  data: Yup.InferType<typeof schema>
+  data: Fields
 }
 
 class CreateProfileService {
