@@ -2,20 +2,30 @@ import { Document, Model, model, Schema, Types } from 'mongoose'
 import bcrypt from 'bcrypt'
 import { IProfileModel } from './Profile.model'
 
-const UserSchema = new Schema({
-  email: {
-    type: String,
-    required: true,
+const UserSchema = new Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+    profile: {
+      type: Types.ObjectId,
+      ref: 'Profile',
+    },
+    provider: {
+      type: Boolean,
+      required: true,
+    },
   },
-  password: {
-    type: String,
-    required: true,
-  },
-  profile: {
-    type: Types.ObjectId,
-    ref: 'Profile',
-  },
-})
+  {
+    timestamps: true,
+  }
+)
 
 interface IUserSchema extends Document {
   email: string

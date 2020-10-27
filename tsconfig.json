@@ -49,6 +49,7 @@
       "@models/*": ["app/models/*"],
       "@services/*": ["app/services/*"],
       "@middlewares/*": ["app/middlewares/*"],
+      "@repositories/*": ["app/repositories/*"],
       "@errors/*": ["errors/*"]
     } /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */,
     // "rootDirs": [],                        /* List of root folders whose combined content represents the structure of the project at runtime. */
