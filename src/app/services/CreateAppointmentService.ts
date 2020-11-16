@@ -1,9 +1,7 @@
 import AppError from '@errors/AppError'
 import { IAppointmentSchema } from '@models/Appointment.model'
-import UserModel from '@models/User.model'
 import AppointmentRepository from '@repositories/AppointmentRepository'
-import { format, isBefore, parseISO, startOfHour } from 'date-fns'
-import { Request } from 'express'
+import { isBefore, startOfHour } from 'date-fns'
 
 interface CreateAppointmentRequest {
   user: string
@@ -17,29 +15,10 @@ class CreateAppointmentService {
     date,
     provider,
   }: CreateAppointmentRequest): Promise<IAppointmentSchema> {
-    const isProvider = await UserModel.findOne({
-      id: provider,
-      provider: true,
-    })
-    if (!isProvider) {
-      throw new AppError('You can only appointments with provider', 401)
-    }
+    const appointmentDate = startOfHour(date)
 
-    /**
-     * Check if provider is not same user
-     */
-
-    if (isProvider.id === user) {
-      throw new AppError('Provider cannot mark with itself', 401)
-    }
-
-    /**
-     * Check for past dates
-     */
-    const hourStart = startOfHour(date)
-
-    if (isBefore(hourStart, new Date())) {
-      throw new AppError('Past dates are not permitted', 401)
+    if (isBefore(appointmentDate, new Date())) {
+      throw new Error('Past dates are not permitted')
     }
 
     /**
@@ -49,7 +28,7 @@ class CreateAppointmentService {
     const checkAvailability = await AppointmentRepository.findOne({
       provider,
       canceled_at: null,
-      date: hourStart,
+      date: appointmentDate,
     })
 
     if (checkAvailability) {

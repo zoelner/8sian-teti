@@ -30,6 +30,7 @@ const UserSchema = new Schema(
 interface IUserSchema extends Document {
   email: string
   password: string
+  provider: boolean
   profile?: Types.ObjectId
   checkPassword(id: string): Promise<boolean>
 }

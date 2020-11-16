@@ -13,7 +13,7 @@ export type IAppointmentSchema = IAppointment & Document
 const AppointmentSchema = new Schema<IAppointmentSchema>(
   {
     provider: {
-      type: Types.ObjectId,
+      type: String,
       ref: 'User',
     },
     date: {
@@ -21,7 +21,7 @@ const AppointmentSchema = new Schema<IAppointmentSchema>(
       default: Date.now,
     },
     user: {
-      type: Types.ObjectId,
+      type: String,
       ref: 'User',
     },
     canceled_at: {
