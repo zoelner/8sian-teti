@@ -3,7 +3,6 @@ import { addHours, startOfHour } from 'date-fns'
 import Appointment from '@models/Appointment.model'
 
 import mockingoose from 'mockingoose'
-import AppError from '@errors/AppError'
 
 const getDoc = (hour?: Date) => ({
   _id: '507f191e810c19729de860',

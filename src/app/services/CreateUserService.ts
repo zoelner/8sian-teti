@@ -10,6 +10,7 @@ const schema = Yup.object().shape({
 interface Request {
   email: string
   password: string
+  provider: boolean
 }
 
 class CreateUserService {
